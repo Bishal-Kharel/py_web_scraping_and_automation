@@ -49,37 +49,36 @@ def get_product_rating(soup):
 def get_product_technical_details(soup):
     details ={}
     technical_details_section = soup.find('div', id='prodDetails')
-    data_table = technical_details_section.findAll('table', id="productDetails_techSpec_section_1")
+    data_table = technical_details_section.find_all('table', id="productDetails_techSpec_section_1")
 
     for table in data_table:
-        table_rows = table.findAll('tr')
+        table_rows = table.find_all('tr')
         for row in table_rows:
             row_key =row.find('th').text.strip()
             row_value = row.find('td').text.strip().replace('\u200e', '')
             details[row_key]= row_value
     return details
 
-def extract_product_info(url):
+def extract_product_info(url, output):
     product_info = {}
-    print (f'Scraping URl: {url}')
+    # print (f'Scraping URl: {url}')
     html = get_page_html(url=url)
     soup = bs4.BeautifulSoup(html, 'lxml')
     product_info['title'] = get_product_title(soup)
     product_info['price'] = get_product_price(soup)
     product_info['rating'] = get_product_rating(soup)
     product_info.update(get_product_technical_details(soup))
-    return product_info
+    output.append(product_info)
 
 if __name__ =="__main__":
     products_data =[]
-    # urls =[]
+    urls =[]
     with open("amazon_products_urls.csv", newline="") as csvfile:
-        reader = list(csv.reader(csvfile, delimiter=","))
-        for row in reader:
-            url = row[0]
-            products_data.append(extract_product_info(url))
+        urls = list(csv.reader(csvfile, delimiter=","))
 
-
+    with concurrent.futures.ThreadPoolExecutor(max_workers=NO_THREADS) as executer:
+        for wkn in tqdm(range(0,len(urls))):
+            executer.submit(extract_product_info, urls[wkn][0], products_data)
     output_file_name ='output-{}.csv'.format(datetime.today().strftime("%m-%d-%Y"))
     with open(output_file_name,'w') as outputFile:
         writer = csv.writer(outputFile)
