@@ -51,13 +51,13 @@ For the HTML scraper, prepare a CSV file named amazon_products_urls.csv with a s
 
 ## Usage
 
-Running the API Scraper
+- Running the API Scraper
 
-Run the script:python api_scraper.py
+- Run the script:python api_scraper.py
 
 The script will fetch job postings from RemoteOK and save them to api_scraper_output_xls/remote_jobs.xls.
 
-Running the HTML Scraper
+- Running the HTML Scraper
 
 Ensure amazon_products_urls.csv exists in the project directory with valid Amazon product URLs.
 Run the script:python html_scraper.py
@@ -66,7 +66,7 @@ The script will scrape product data and save it to a CSV file (e.g., output-05-2
 
 ## File Structure
 
-<img src="public/screenshot3.png" alt="API Output" width="400"/>
+<img src="public/screenshot3.png" alt="API Output" width="800"/>
 
 ## Notes
 
@@ -78,10 +78,10 @@ Concurrency: The HTML scraper uses multithreading (concurrent.futures) to proces
 ## Contributing
 
 **Fork the repository**.
-Create a new branch (git checkout -b feature-branch).
-Make changes and commit (git commit -m "Add feature").
-Push to the branch (git push origin feature-branch).
-Open a Pull Request.
+- Create a new branch (git checkout -b feature-branch).
+- Make changes and commit (git commit -m "Add feature").
+- Push to the branch (git push origin feature-branch).
+- Open a Pull Request.
 
 ## License
 
